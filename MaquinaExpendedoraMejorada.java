@@ -12,13 +12,17 @@ public class MaquinaExpendedoraMejorada {
     private String estacionDestino;
     // Guarda el valor de el dinero que se va a retirar
     private int almacenarDineroRetirado;
+    // Maquina con premio
+    private boolean maquinaPremiada;
+    
     /**
      * Crea una maquina expendedora de billetes de tren con el 
      * precio del billete y el origen y destino dados. Se asume que el precio
      * del billete que se recibe es mayor que 0.
      */
-    public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino) {
+     public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino, boolean maquinaConPremio) {
         precioBillete = precioDelBillete;
+        maquinaPremiada = maquinaConPremio;
         balanceClienteActual = 0;
         totalDineroAcumulado = 0;
         estacionOrigen = origen;
@@ -68,6 +72,9 @@ public class MaquinaExpendedoraMejorada {
             totalDineroAcumulado = totalDineroAcumulado + precioBillete;
             // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
             balanceClienteActual = balanceClienteActual - precioBillete;
+            if (maquinaPremiada == true) {
+                System.out.println("Este billete tiene premio"); 
+            }
         }
         else {
             System.out.println("Necesitas introducir " + (precioBillete - balanceClienteActual) + " euros mas!");
@@ -89,16 +96,16 @@ public class MaquinaExpendedoraMejorada {
     
     public int getVaciarDineroDeLaMaquina()
     {
-       if(balanceClienteActual <= 0){
-           almacenarDineroRetirado = balanceClienteActual + totalDineroAcumulado;
-           balanceClienteActual = 0;
-           totalDineroAcumulado =0;
-           return almacenarDineroRetirado;
-        }
+       int dineroADevolver = -1;
+        if(balanceClienteActual <= 0){
+           //No hay dinero a devolver;
+           dineroADevolver = totalDineroAcumulado;
+           totalDineroAcumulado = 0;
+       }
         
         else{
-            System.out.println("Ahora mismo hay una operacion en curso, finalizala y luego podra extraer el dinero acumulado");
-            return -1;
-        }
+           System.out.println("Ahora mismo hay una operacion en curso, finalizala y luego podra extraer el dinero acumulado");
+       }
+       return dineroADevolver;
     } 
 }
