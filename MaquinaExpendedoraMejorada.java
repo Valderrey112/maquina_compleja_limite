@@ -14,19 +14,25 @@ public class MaquinaExpendedoraMejorada {
     private int almacenarDineroRetirado;
     // Maquina con premio
     private boolean maquinaPremiada;
+    //Guarda variable contador
+    private int contador;
+    //Guarda valor de compra maxima de billetes
+    private int contadorMaximo;
     
     /**
      * Crea una maquina expendedora de billetes de tren con el 
      * precio del billete y el origen y destino dados. Se asume que el precio
      * del billete que se recibe es mayor que 0.
      */
-     public MaquinaExpendedoraMejorada(int precioDelBillete, String origen, String destino, boolean maquinaConPremio) {
+     public MaquinaExpendedoraMejorada(int precioDelBillete, int contadorMax, String origen, String destino, boolean maquinaConPremio) {
         precioBillete = precioDelBillete;
         maquinaPremiada = maquinaConPremio;
         balanceClienteActual = 0;
         totalDineroAcumulado = 0;
         estacionOrigen = origen;
         estacionDestino = destino;
+        contador = 0;
+        contadorMaximo = contadorMax;
     }
 
     /**
@@ -59,7 +65,10 @@ public class MaquinaExpendedoraMejorada {
      * Imprime un billete para el cliente actual
      */
     public void imprimirBillete() {
-        if(balanceClienteActual >= precioBillete) {        
+        if (contador == contadorMaximo) {
+                System.out.println("Ha llegado al limite de compra de billetes establecido"); 
+            }
+        else if (balanceClienteActual >= precioBillete) {        
             // Simula la impresion de un billete
             System.out.println("##################");
             System.out.println("# Billete de tren:");
@@ -72,6 +81,7 @@ public class MaquinaExpendedoraMejorada {
             totalDineroAcumulado = totalDineroAcumulado + precioBillete;
             // Reduce el balance del cliente actual dejandole seguir utilizando la maquina
             balanceClienteActual = balanceClienteActual - precioBillete;
+            contador = contador + 1;
             if (maquinaPremiada == true) {
                 System.out.println("Este billete tiene premio"); 
             }
